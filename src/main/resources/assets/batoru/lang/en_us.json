@@ -10,6 +10,10 @@
   "item.batoru.spell_card.equip_message": "Equipped: %1$s",
 
   "key.category.batoru.category": "Batoru Academia",
-  "key.batoru.ability": "Weapon Ability"
+  "key.batoru.ability": "Weapon Ability",
+
+  "batoru.insufficient_mana": "Insufficient mana!",
+
+  "sound.batoru.interface.denied": "Denied"
 
 }

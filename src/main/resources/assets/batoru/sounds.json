@@ -1,0 +1,6 @@
+{
+  "interface/denied": {
+    "subtitle": "sound.batoru.interface.denied",
+    "sounds": ["batoru:interface/denied"]
+  }
+}

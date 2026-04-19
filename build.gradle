@@ -32,6 +32,10 @@ repositories {
 		url = "https://maven.terraformersmc.com/"
 	}
 	maven { url 'https://maven.covers1624.net/' }
+	maven {
+		name = "FzzyMaven"
+		url = uri("https://maven.fzzyhmstrs.me/")
+	}
 }
 
 fabricApi {
@@ -63,17 +67,16 @@ dependencies {
 
 	implementation "maven.modrinth:rrv:${project.rrv_version}"
 
-	//implementation "maven.modrinth:pentamana:${project.pentamana_version}"
-
-
-	implementation "maven.modrinth:fishbone-trehalose:${project.fishbone_trehalose_version}"
-	implementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
+	implementation "maven.modrinth:mana-attributes:${project.mana_version}"
+	implementation "maven.modrinth:resource-bar-api:${project.bar_api_version}"
 
 	implementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 
 	implementation include("eu.pb4:placeholder-api:${project.placeholder_api_version}")
 
 	implementation "eu.pb4:trinkets:${trinkets_version}"
+
+	implementation "me.fzzyhmstrs:fzzy_config:${fzzy_version}"
 
 	localRuntime 'net.covers1624:DevLogin:0.1.0.5'
 }

@@ -1,5 +1,6 @@
 package net.sigma.batoru;
 
+import com.github.theredbrain.manaattributes.entity.ManaUsingEntity;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -12,6 +13,7 @@ import net.sigma.batoru.component.BatoruComponents;
 import net.sigma.batoru.item.BatoruItems;
 import net.sigma.batoru.item.custom.sword.TechSwordItem;
 import net.sigma.batoru.networking.WeaponAbilityPayload;
+import net.sigma.batoru.sound.BatoruSounds;
 import net.sigma.batoru.spell.BatoruSpells;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +34,7 @@ public class Batoru implements ModInitializer {
             System.out.println(i + ": SKIBIDI");
         } // we do a lil funny goofy thingamajig
 
+        BatoruSounds.initialize();
         BatoruSpells.initialize();
         BatoruItems.initialize();
         BatoruComponents.initialize();
@@ -50,8 +53,6 @@ public class Batoru implements ModInitializer {
 
                 if (stack.is(BatoruItems.TECH_SWORD)){
                     stack.set(BatoruComponents.TELEPORT_POSITION, blockPos);
-
-                    player.
                 }
             });
         });

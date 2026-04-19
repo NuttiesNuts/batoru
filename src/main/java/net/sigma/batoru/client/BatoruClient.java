@@ -7,7 +7,6 @@ import net.sigma.batoru.networking.WeaponAbilityPayload;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.KeyMapping;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
 import net.fabricmc.api.ClientModInitializer;
