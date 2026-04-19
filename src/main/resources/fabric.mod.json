@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "batoru",
+	"version": "${version}",
+	"name": "batoru",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"NuttiesNuts"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/batoru/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+          "net.sigma.batoru.Batoru"
+		],
+		"client": [
+          "net.sigma.batoru.client.BatoruClient"
+		],
+		"fabric-datagen": [
+          "net.sigma.batoru.BatoruDataGenerator"
+		]
+	},
+	"mixins": [
+		"batoru.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.18.6",
+		"minecraft": "~26.1",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

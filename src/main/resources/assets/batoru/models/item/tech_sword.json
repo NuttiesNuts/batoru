@@ -1,0 +1,33 @@
+{
+	"format_version": "1.21.11",
+	"credit": "Made with Balls",
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "batoru:item/tech_sword"
+	},
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, -90, 45],
+			"translation": [0, 10.75, 0.75],
+			"scale": [1.6, 1.6, 0.85]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, 90, -45],
+			"translation": [0, 10.75, 0.75],
+			"scale": [1.6, 1.6, 0.85]
+		},
+		"firstperson_righthand": {
+			"rotation": [-35, -90, 0],
+			"translation": [0, 3, 0],
+			"scale": [1.6, 1.6, 0.85]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-35, 90, 0],
+			"translation": [0, 3, 0],
+			"scale": [1.6, 1.6, 0.85]
+		},
+		"ground": {
+			"translation": [0, 4, 0]
+		}
+	}
+}
