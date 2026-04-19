@@ -12,10 +12,17 @@ public class BatoruSounds {
     }
 
     public static final SoundEvent DENIED = registerInterfaceSound("denied");
+    public static final SoundEvent TECH_SLASH = registerInterfaceSound("tech_slash");
+    public static final SoundEvent TELEPORT = registerSpellSound("teleport");
 
 
     private static SoundEvent registerInterfaceSound(String id) {
         Identifier identifier = Identifier.fromNamespaceAndPath(Batoru.MOD_ID, "interface/" + id);
+        return Registry.register(BuiltInRegistries.SOUND_EVENT, identifier, SoundEvent.createVariableRangeEvent(identifier));
+    }
+
+    private static SoundEvent registerSlashSound(String id) {
+        Identifier identifier = Identifier.fromNamespaceAndPath(Batoru.MOD_ID, "slash/" + id);
         return Registry.register(BuiltInRegistries.SOUND_EVENT, identifier, SoundEvent.createVariableRangeEvent(identifier));
     }
 
@@ -25,6 +32,5 @@ public class BatoruSounds {
     }
 
     public static void initialize(){
-
     }
 }

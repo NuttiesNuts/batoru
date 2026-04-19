@@ -14,6 +14,7 @@
 
   "batoru.insufficient_mana": "Insufficient mana!",
 
-  "sound.batoru.interface.denied": "Denied"
+  "sound.batoru.interface.denied": "Denied",
+  "sound.batoru.spell.teleport": "Player teleported"
 
 }

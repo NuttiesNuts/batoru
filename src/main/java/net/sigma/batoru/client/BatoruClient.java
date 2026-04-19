@@ -2,6 +2,8 @@ package net.sigma.batoru.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
+import net.minecraft.client.particle.AttackSweepParticle;
 import net.sigma.batoru.Batoru;
 import net.sigma.batoru.networking.WeaponAbilityPayload;
 import org.lwjgl.glfw.GLFW;
@@ -29,6 +31,8 @@ public class BatoruClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        ParticleProviderRegistry.getInstance().register(Batoru.TECH_SWEEP, AttackSweepParticle.Provider::new);
+
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (abilityKey.consumeClick()) {
                 if (client.player != null) {

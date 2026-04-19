@@ -2,5 +2,12 @@
   "interface/denied": {
     "subtitle": "sound.batoru.interface.denied",
     "sounds": ["batoru:interface/denied"]
+  },"slash/tech_slash": {
+    "subtitle": "sound.batoru.slash.tech_slash",
+    "sounds": ["batoru:slash/tech_slash"]
+  },
+  "spell/teleport": {
+    "subtitle": "sound.batoru.spell.teleport",
+    "sounds": ["batoru:spell/teleport"]
   }
 }

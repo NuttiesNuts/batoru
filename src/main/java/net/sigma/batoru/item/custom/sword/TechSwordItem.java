@@ -46,10 +46,7 @@ public class TechSwordItem extends FancyNameItem {
 
                 BlockPos blockPos = stack.get(BatoruComponents.TELEPORT_POSITION);
 
-                BlockPos playerPos = player.blockPosition();
-
-                addParticle(ParticleTypes.TRIAL_SPAWNER_DETECTED_PLAYER_OMINOUS, new Vec3(playerPos), level);
-
+                addParticle(ParticleTypes.TRIAL_SPAWNER_DETECTED_PLAYER_OMINOUS, new Vec3(player.blockPosition()), level);
                 teleport(level, player, blockPos);
                 addParticle(ParticleTypes.TRIAL_SPAWNER_DETECTED_PLAYER_OMINOUS, new Vec3(blockPos), level);
 
@@ -57,9 +54,9 @@ public class TechSwordItem extends FancyNameItem {
 
                 ((ManaUsingEntity) player).manaattributes$addMana(-MANA_COST);
 
+                level.playSound(null, player.blockPosition(), BatoruSounds.TELEPORT, SoundSource.NEUTRAL, 0.5F, 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
+
                 player.awardStat(Stats.ITEM_USED.get(this));
-
-
             } else if (currentMana <= MANA_COST){
                 player.sendOverlayMessage(Component.translatable("batoru.insufficient_mana").withStyle(ChatFormatting.DARK_RED));
 
