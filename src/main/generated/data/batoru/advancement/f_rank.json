@@ -6,7 +6,7 @@
     }
   },
   "display": {
-    "description": "Defeat players 1 times",
+    "description": "Defeat players 0 times",
     "frame": "goal",
     "icon": {
       "id": "batoru:gauntlet"

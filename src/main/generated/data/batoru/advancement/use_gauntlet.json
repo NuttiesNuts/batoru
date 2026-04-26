@@ -17,7 +17,7 @@
     }
   },
   "display": {
-    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "background": "batoru:gui/grid_slot01",
     "description": "Become a Batoru Academia student by using the Student Gauntlet",
     "icon": {
       "id": "batoru:gauntlet"

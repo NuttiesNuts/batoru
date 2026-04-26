@@ -31,7 +31,7 @@ public class BatoruAdvancementProvider extends FabricAdvancementProvider {
                         BatoruItems.GAUNTLET,
                         Component.literal("Welcome Student!"),
                         Component.literal("Become a Batoru Academia student by using the Student Gauntlet"),
-                        Identifier.withDefaultNamespace("textures/gui/advancements/backgrounds/adventure.png"),
+                        Identifier.fromNamespaceAndPath(Batoru.MOD_ID, "gui/grid_slot01"),
                         AdvancementType.TASK,
                         true,
                         true,
