@@ -12,7 +12,7 @@ public class BatoruSounds {
     }
 
     public static final SoundEvent DENIED = registerInterfaceSound("denied");
-    public static final SoundEvent TECH_SLASH = registerInterfaceSound("tech_slash");
+    public static final SoundEvent TECH_SLASH = registerSlashSound("tech_slash");
     public static final SoundEvent TELEPORT = registerSpellSound("teleport");
 
 
