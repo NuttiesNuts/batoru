@@ -38,7 +38,7 @@ public class SpellCardItem extends Item {
 
         ItemStack gauntlet = trinkets.getEquipped(BatoruItems.GAUNTLET).getFirst().getB();
 
-        if (TrinketsApi.getAttachment(player).isEquipped(BatoruItems.GAUNTLET)){
+        if (trinkets.isEquipped(BatoruItems.GAUNTLET)){
             player.getMainHandItem().shrink(1);
 
             player.sendOverlayMessage(Component.translatable("item.batoru.spell_card.equip_message", spell.displayName()).withStyle(ChatFormatting.GRAY));

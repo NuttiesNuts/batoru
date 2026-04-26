@@ -1,0 +1,25 @@
+{
+  "parent": "batoru:f_rank",
+  "criteria": {
+    "d_rank": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "description": "Defeat players 10 times",
+    "frame": "goal",
+    "icon": {
+      "id": "batoru:gauntlet"
+    },
+    "title": "D Rank"
+  },
+  "requirements": [
+    [
+      "d_rank"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  },
+  "sends_telemetry_event": true
+}

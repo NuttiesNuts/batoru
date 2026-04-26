@@ -7,6 +7,7 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.sigma.batoru.Batoru;
+import net.sigma.batoru.rank.CombatRank;
 
 import java.util.List;
 
@@ -29,7 +30,11 @@ public class BatoruComponents {
             DataComponentType.<List<Identifier>>builder().persistent(Identifier.CODEC.listOf()).build()
     );
 
-    public static void initialize() {
-        Batoru.LOGGER.info("Registering {} components", Batoru.MOD_ID);
-    }
+    public static final DataComponentType<CombatRank> RANK = Registry.register(
+            BuiltInRegistries.DATA_COMPONENT_TYPE,
+            Identifier.fromNamespaceAndPath(Batoru.MOD_ID, "rank"),
+            DataComponentType.<CombatRank>builder().persistent(CombatRank.CODEC).build()
+    );
+
+    public static void initialize() {}
 }

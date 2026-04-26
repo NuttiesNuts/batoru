@@ -1,0 +1,25 @@
+{
+  "parent": "batoru:a_rank",
+  "criteria": {
+    "s_rank": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "description": "Defeat players 100 times",
+    "frame": "goal",
+    "icon": {
+      "id": "batoru:gauntlet"
+    },
+    "title": "S Rank"
+  },
+  "requirements": [
+    [
+      "s_rank"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  },
+  "sends_telemetry_event": true
+}

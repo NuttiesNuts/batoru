@@ -1,0 +1,33 @@
+{
+  "criteria": {
+    "used_gauntlet": {
+      "conditions": {
+        "item": {
+          "items": "batoru:gauntlet"
+        },
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {}
+          }
+        ]
+      },
+      "trigger": "minecraft:using_item"
+    }
+  },
+  "display": {
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "description": "Become a Batoru Academia student by using the Student Gauntlet",
+    "icon": {
+      "id": "batoru:gauntlet"
+    },
+    "title": "Welcome Student!"
+  },
+  "requirements": [
+    [
+      "used_gauntlet"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

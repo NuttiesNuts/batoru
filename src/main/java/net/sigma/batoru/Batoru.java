@@ -1,7 +1,10 @@
 package net.sigma.batoru;
 
-import com.github.theredbrain.manaattributes.entity.ManaUsingEntity;
+import eu.pb4.trinkets.api.TrinketAttachment;
+import eu.pb4.trinkets.api.TrinketsApi;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
@@ -9,21 +12,19 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.sigma.batoru.component.BatoruComponents;
 import net.sigma.batoru.item.BatoruItems;
-import net.sigma.batoru.item.custom.sword.TechSwordItem;
 import net.sigma.batoru.networking.WeaponAbilityPayload;
+import net.sigma.batoru.rank.CombatRank;
+import net.sigma.batoru.rank.RankUtil;
 import net.sigma.batoru.sound.BatoruSounds;
 import net.sigma.batoru.spell.BatoruSpells;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Locale;
 
 
 public class Batoru implements ModInitializer {
@@ -64,6 +65,19 @@ public class Batoru implements ModInitializer {
                 }
             });
         });
-    }
 
+
+        ServerLivingEntityEvents.AFTER_DEATH.register((entity, damageSource) -> {
+            if ((damageSource.getEntity() instanceof ServerPlayer killer)){
+                TrinketAttachment trinkets = TrinketsApi.getAttachment(killer);
+                ItemStack gauntlet = trinkets.getEquipped(BatoruItems.GAUNTLET).getFirst().getB();
+                if (gauntlet.isEmpty()) return;
+
+                gauntlet.set(BatoruComponents.RANK, RankUtil.getRank(killer));
+
+                CombatRank rank = RankUtil.getRank(killer);
+                RankUtil.awardRankAdvancement(killer, rank);
+            }
+        });
+    }
 }

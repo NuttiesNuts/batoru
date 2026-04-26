@@ -1,0 +1,25 @@
+{
+  "parent": "batoru:c_rank",
+  "criteria": {
+    "b_rank": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "description": "Defeat players 50 times",
+    "frame": "goal",
+    "icon": {
+      "id": "batoru:gauntlet"
+    },
+    "title": "B Rank"
+  },
+  "requirements": [
+    [
+      "b_rank"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  },
+  "sends_telemetry_event": true
+}

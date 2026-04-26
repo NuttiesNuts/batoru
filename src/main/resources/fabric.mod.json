@@ -19,10 +19,11 @@
           "net.sigma.batoru.Batoru"
 		],
 		"client": [
-          "net.sigma.batoru.client.BatoruClient"
+			"net.sigma.batoru.client.BatoruClient",
+			"net.sigma.batoru.rendering.RankRenderPipeline"
 		],
 		"fabric-datagen": [
-          "net.sigma.batoru.BatoruDataGenerator"
+          "net.sigma.batoru.datagen.BatoruDataGenerator"
 		]
 	},
 	"mixins": [
