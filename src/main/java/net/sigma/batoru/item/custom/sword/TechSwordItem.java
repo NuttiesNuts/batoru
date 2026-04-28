@@ -31,11 +31,6 @@ public class TechSwordItem extends FancyNameItem {
     }
 
     @Override
-    public boolean allowComponentsUpdateAnimation(Player player, InteractionHand hand, ItemStack oldStack, ItemStack newStack) {
-        return false;
-    }
-
-    @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getMainHandItem();
 

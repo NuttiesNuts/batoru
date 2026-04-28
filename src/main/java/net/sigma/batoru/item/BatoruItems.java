@@ -11,6 +11,9 @@ import net.minecraft.world.item.Item;
 import net.sigma.batoru.Batoru;
 import net.sigma.batoru.item.custom.GauntletItem;
 import net.sigma.batoru.item.custom.SpellCardItem;
+import net.sigma.batoru.item.custom.sword.BibertaSwordItem;
+import net.sigma.batoru.item.custom.sword.MoonSwordItem;
+import net.sigma.batoru.item.custom.sword.StreetAxeItem;
 import net.sigma.batoru.item.custom.sword.TechSwordItem;
 import net.sigma.batoru.spell.custom.ProjectileSpell;
 
@@ -32,15 +35,23 @@ public class BatoruItems {
 
     public static final Item GAUNTLET = register("gauntlet", GauntletItem::new, new Item.Properties());
     public static final Item PROJECTILE_CARD = register("projectile_card", properties -> new SpellCardItem(properties, new ProjectileSpell()), new Item.Properties());
+
     public static final Item TECH_SWORD = register("tech_sword", TechSwordItem::new, new Item.Properties());
+    public static final Item ASTRAMENTAL_SWORD = register("astramental_sword", MoonSwordItem::new, new Item.Properties());
+    public static final Item BIBERTA_SWORD = register("biberta_sword", BibertaSwordItem::new, new Item.Properties());
+    public static final Item STREET_AXE = register("street_axe", StreetAxeItem::new, new Item.Properties());
 
     public static void initialize() {
-        // Get the event for modifying entries in the ingredients group.
-        // And register an event handler that adds our suspicious item to the ingredients group.
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT)
                 .register((creativeTab) -> creativeTab.accept(BatoruItems.GAUNTLET));
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT)
                 .register((creativeTab) -> creativeTab.accept(BatoruItems.TECH_SWORD));
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT)
+                .register((creativeTab) -> creativeTab.accept(BatoruItems.ASTRAMENTAL_SWORD));
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT)
+                .register((creativeTab) -> creativeTab.accept(BatoruItems.BIBERTA_SWORD));
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT)
+                .register((creativeTab) -> creativeTab.accept(BatoruItems.STREET_AXE));
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT)
                 .register((creativeTab) -> creativeTab.accept(BatoruItems.PROJECTILE_CARD));
     }

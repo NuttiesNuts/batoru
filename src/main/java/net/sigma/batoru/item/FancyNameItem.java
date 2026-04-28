@@ -3,6 +3,8 @@ package net.sigma.batoru.item;
 import eu.pb4.placeholders.api.node.parent.GradientNode;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -17,6 +19,11 @@ public class FancyNameItem extends Item {
         super(properties);
         this.color1 = color1;
         this.color2 = color2;
+    }
+
+    @Override
+    public boolean allowComponentsUpdateAnimation(Player player, InteractionHand hand, ItemStack oldStack, ItemStack newStack) {
+        return false;
     }
 
     @Override
