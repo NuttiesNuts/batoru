@@ -3,6 +3,8 @@ package net.sigma.batoru.item.custom;
 import eu.pb4.trinkets.api.callback.TrinketCallback;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -12,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
+import net.sigma.batoru.Batoru;
 import net.sigma.batoru.component.BatoruComponents;
 import net.sigma.batoru.sound.BatoruSounds;
 
@@ -48,6 +51,10 @@ public class GauntletItem extends Item implements TrinketCallback {
 
         if (!stack.has(BatoruComponents.OWNER)) { // set owner
             stack.set(BatoruComponents.OWNER, player.getPlainTextName());
+
+            if (player instanceof ServerPlayer){
+                ((ServerPlayer) player).getAdvancements().award(level.getServer().getAdvancements().get(Identifier.fromNamespaceAndPath(Batoru.MOD_ID, "use_gauntlet")), "used_gauntlet");
+            }
         }
 
         if (stack.has(BatoruComponents.OWNER)){
