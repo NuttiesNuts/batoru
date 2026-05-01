@@ -26,6 +26,7 @@
           "net.sigma.batoru.datagen.BatoruDataGenerator"
 		]
 	},
+	"accessWidener": "batoru.accesswidener",
 	"mixins": [
 		"batoru.mixins.json"
 	],

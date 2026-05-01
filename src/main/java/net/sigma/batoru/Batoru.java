@@ -1,5 +1,6 @@
 package net.sigma.batoru;
 
+import com.github.theredbrain.manaattributes.entity.ManaUsingEntity;
 import eu.pb4.trinkets.api.TrinketAttachment;
 import eu.pb4.trinkets.api.TrinketsApi;
 import net.fabricmc.api.ModInitializer;
@@ -8,23 +9,35 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.sigma.batoru.component.BatoruComponents;
+import net.sigma.batoru.component.GauntletContainerContents;
+import net.sigma.batoru.entity.BatoruEntities;
 import net.sigma.batoru.item.BatoruItems;
+import net.sigma.batoru.item.custom.SpellCardItem;
 import net.sigma.batoru.networking.WeaponAbilityPayload;
 import net.sigma.batoru.rank.CombatRank;
 import net.sigma.batoru.rank.RankUtil;
 import net.sigma.batoru.sound.BatoruSounds;
 import net.sigma.batoru.spell.BatoruSpells;
+import net.sigma.batoru.spell.SpellRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 
 public class Batoru implements ModInitializer {
@@ -45,16 +58,19 @@ public class Batoru implements ModInitializer {
         BatoruSounds.initialize();
         BatoruSpells.initialize();
         BatoruItems.initialize();
+        BatoruEntities.initialize();
         BatoruComponents.initialize();
 
         Registry.register(BuiltInRegistries.PARTICLE_TYPE, Identifier.fromNamespaceAndPath(MOD_ID, "tech_sweep"), TECH_SWEEP);
 
         PayloadTypeRegistry.serverboundPlay().register(WeaponAbilityPayload.TYPE, WeaponAbilityPayload.CODEC);
 
-        // payload thingy
+        // payload thingies
         ServerPlayNetworking.registerGlobalReceiver(WeaponAbilityPayload.TYPE, (payload, context) -> {
             context.server().execute(() -> {
                 ServerPlayer player = context.player();
+
+                float currentMana = ((ManaUsingEntity) player).manaattributes$getMana();
 
                 ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
 
@@ -62,6 +78,35 @@ public class Batoru implements ModInitializer {
 
                 if (stack.is(BatoruItems.TECH_SWORD) && !stack.has(BatoruComponents.TELEPORT_POSITION)){
                     stack.set(BatoruComponents.TELEPORT_POSITION, blockPos);
+                }
+
+                TrinketAttachment trinkets = TrinketsApi.getAttachment(player);
+                ItemStack gauntlet = trinkets.getEquipped(BatoruItems.GAUNTLET).getFirst().getB();
+
+                if (trinkets.isEquipped(BatoruItems.GAUNTLET)){
+                    if (Objects.equals(gauntlet.get(BatoruComponents.OWNER), player.getPlainTextName())){
+                        GauntletContainerContents contents = gauntlet.get(BatoruComponents.CONTAINER);
+                        ItemStack card = contents.copyOne();
+
+                        if (card.getItem() instanceof SpellCardItem spellCardItem){ // shadow wizard money gang, we love casting spells
+                            SpellRegistry.get(spellCardItem.getSpellId()).ifPresent(spell -> {
+                                if (currentMana >= spell.manaCost()) {
+                                    spell.cast(player, gauntlet);
+
+                                    ((ManaUsingEntity) player).manaattributes$addMana(-spell.manaCost());
+                                } else if (currentMana <= spell.manaCost()) {
+                                    player.sendOverlayMessage(Component.translatable("batoru.insufficient_mana").withStyle(ChatFormatting.DARK_RED));
+
+                                    if (player.level().isClientSide()) {
+                                        player.level().playLocalSound(player.blockPosition(), BatoruSounds.DENIED, SoundSource.PLAYERS, 1.0F, 1.0F, false);
+                                    }
+                                }
+                            });
+                        }
+
+                        player.awardStat(Stats.ITEM_USED.get(gauntlet.getItem()));
+                        gauntlet.causeUseVibration(player, GameEvent.ITEM_INTERACT_START);
+                    }
                 }
             });
         });

@@ -29,7 +29,7 @@ public class SpellCardItem extends Item {
         this.spellId = spell.id();
     }
 
-    public Identifier getId() {
+    public Identifier getSpellId() {
         return spellId;
     }
 
@@ -47,8 +47,6 @@ public class SpellCardItem extends Item {
             player.sendOverlayMessage(Component.translatable("item.batoru.spell_card.equip_message", spell.displayName()).withStyle(ChatFormatting.GRAY));
 
             return InteractionResult.SUCCESS;
-
-
         }
 
         return InteractionResult.PASS;

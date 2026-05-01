@@ -8,7 +8,11 @@ import net.minecraft.world.item.ItemStack;
 public interface Spell {
     Identifier id();
 
+    int range();
+
     int cooldownTicks();
+
+    float manaCost();
 
     Component displayName();
 
