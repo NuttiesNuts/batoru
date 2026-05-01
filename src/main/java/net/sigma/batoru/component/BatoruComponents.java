@@ -9,7 +9,6 @@ import net.minecraft.resources.Identifier;
 import net.sigma.batoru.Batoru;
 import net.sigma.batoru.rank.CombatRank;
 
-import java.util.List;
 
 public class BatoruComponents {
     public static final DataComponentType<BlockPos> TELEPORT_POSITION = Registry.register(
@@ -24,10 +23,10 @@ public class BatoruComponents {
             DataComponentType.<String>builder().persistent(Codec.STRING).build()
     );
 
-    public static final DataComponentType<List<Identifier>> SPELL_CARDS = Registry.register(
+    public static final DataComponentType<GauntletContainerContents> CONTAINER = Registry.register(
             BuiltInRegistries.DATA_COMPONENT_TYPE,
-            Identifier.fromNamespaceAndPath(Batoru.MOD_ID, "spell_cards"),
-            DataComponentType.<List<Identifier>>builder().persistent(Identifier.CODEC.listOf()).build()
+            Identifier.fromNamespaceAndPath(Batoru.MOD_ID, "container"),
+            DataComponentType.<GauntletContainerContents>builder().persistent(GauntletContainerContents.CODEC).networkSynchronized(GauntletContainerContents.STREAM_CODEC).build()
     );
 
     public static final DataComponentType<CombatRank> RANK = Registry.register(

@@ -2,6 +2,7 @@ package net.sigma.batoru.item.custom;
 
 import eu.pb4.trinkets.api.callback.TrinketCallback;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
@@ -12,10 +13,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.sigma.batoru.Batoru;
 import net.sigma.batoru.component.BatoruComponents;
+import net.sigma.batoru.component.GauntletContainerContents;
 import net.sigma.batoru.sound.BatoruSounds;
 
 import java.util.List;
@@ -23,10 +26,8 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 public class GauntletItem extends Item implements TrinketCallback {
-    public static final int MAX_SLOTS = 3;
-
     public GauntletItem(Properties properties) {
-        super(properties.component(BatoruComponents.SPELL_CARDS, List.of()));
+        super(properties.component(BatoruComponents.CONTAINER, GauntletContainerContents.EMPTY));
     }
 
     @Override
@@ -36,13 +37,10 @@ public class GauntletItem extends Item implements TrinketCallback {
             builder.accept(Component.translatable("item.batoru.gauntlet.description.owner", owner).withStyle(ChatFormatting.DARK_GRAY));
         }
 
-        if (itemStack.hasNonDefault(BatoruComponents.SPELL_CARDS)){
-            builder.accept(Component.translatable("item.batoru.gauntlet.description.cards").withStyle(ChatFormatting.GRAY));
+        GauntletContainerContents contents = itemStack.get(BatoruComponents.CONTAINER);
+        if (contents != null) {
+            contents.addToTooltip(context, builder, tooltipFlag, itemStack);
         }
-    }
-
-    public int getGetMaxSlots() {
-        return MAX_SLOTS;
     }
 
     @Override
@@ -70,6 +68,16 @@ public class GauntletItem extends Item implements TrinketCallback {
             }
         }
 
+        if (player.isCrouching()){ // this is outside to allow for "card stealing" if someone gets a hold of someone else's gauntlet
+            GauntletContainerContents contents = stack.get(BatoruComponents.CONTAINER);
+            ItemStack card = contents.copyOne();
+
+            if (!player.addItem(card)) {
+                player.drop(card, false);
+            }
+
+            stack.set(BatoruComponents.CONTAINER, GauntletContainerContents.EMPTY);
+        }
 
         return InteractionResult.SUCCESS;
     }

@@ -13,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.sigma.batoru.component.BatoruComponents;
 import net.sigma.batoru.item.BatoruItems;
+import net.sigma.batoru.component.GauntletContainerContents;
 import net.sigma.batoru.spell.Spell;
 
 import java.util.List;
@@ -39,13 +40,11 @@ public class SpellCardItem extends Item {
         ItemStack gauntlet = trinkets.getEquipped(BatoruItems.GAUNTLET).getFirst().getB();
 
         if (trinkets.isEquipped(BatoruItems.GAUNTLET)){
+            gauntlet.set(BatoruComponents.CONTAINER, GauntletContainerContents.fromItems(List.of(player.getMainHandItem())));
+
             player.getMainHandItem().shrink(1);
 
             player.sendOverlayMessage(Component.translatable("item.batoru.spell_card.equip_message", spell.displayName()).withStyle(ChatFormatting.GRAY));
-
-            List<Identifier> identifierList = List.of(this.getId());
-
-            gauntlet.set(BatoruComponents.SPELL_CARDS, identifierList);
 
             return InteractionResult.SUCCESS;
 

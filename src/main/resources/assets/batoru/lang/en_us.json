@@ -1,7 +1,6 @@
 {
   "item.batoru.gauntlet": "Student Gauntlet",
   "item.batoru.gauntlet.description.owner": "Owner: %1$s",
-  "item.batoru.gauntlet.description.cards": "[Has cards inserted]",
 
   "item.batoru.gauntlet.invalid_owner": "You are not the owner of this gauntlet!",
 

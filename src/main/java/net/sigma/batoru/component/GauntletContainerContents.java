@@ -1,0 +1,176 @@
+package net.sigma.batoru.component;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipProvider;
+
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
+
+public class GauntletContainerContents implements TooltipProvider {
+    private static final int NO_SLOT = -1;
+    private static final int MAX_SIZE = 1;
+    public static final GauntletContainerContents EMPTY = new GauntletContainerContents(List.of());
+    public static final Codec<GauntletContainerContents> CODEC;
+    public static final StreamCodec<RegistryFriendlyByteBuf, GauntletContainerContents> STREAM_CODEC;
+    private final List<Optional<ItemStackTemplate>> items;
+    private final int hashCode;
+
+    public GauntletContainerContents(final List<Optional<ItemStackTemplate>> items) {
+        if (items.size() > MAX_SIZE) {
+            throw new IllegalArgumentException("Got " + items.size() + " items, but maximum is " + MAX_SIZE);
+        } else {
+            this.items = items;
+            this.hashCode = items.hashCode();
+        }
+    }
+
+    private static List<Optional<ItemStackTemplate>> emptyContents(final int size) {
+        return new ArrayList(Collections.nCopies(size, Optional.empty()));
+    }
+
+    private static GauntletContainerContents fromSlots(final List<GauntletContainerContents.Slot> slots) {
+        OptionalInt maxSlotIndex = slots.stream().mapToInt(GauntletContainerContents.Slot::index).max();
+        if (maxSlotIndex.isEmpty()) {
+            return EMPTY;
+        } else {
+            List<Optional<ItemStackTemplate>> items = emptyContents(maxSlotIndex.getAsInt() + 1);
+
+            for(GauntletContainerContents.Slot slot : slots) {
+                items.set(slot.index(), Optional.of(slot.item()));
+            }
+
+            return new GauntletContainerContents(items);
+        }
+    }
+
+    public static GauntletContainerContents fromItems(final List<ItemStack> itemStacks) {
+        int lastNonEmptySlot = findLastNonEmptySlot(itemStacks);
+        if (lastNonEmptySlot == -1) {
+            return EMPTY;
+        } else {
+            List<Optional<ItemStackTemplate>> items = emptyContents(lastNonEmptySlot + 1);
+
+            for(int i = 0; i <= lastNonEmptySlot; ++i) {
+                ItemStack sourceStack = (ItemStack)itemStacks.get(i);
+                if (!sourceStack.isEmpty()) {
+                    items.set(i, Optional.of(ItemStackTemplate.fromNonEmptyStack(sourceStack)));
+                }
+            }
+
+            return new GauntletContainerContents(items);
+        }
+    }
+
+    private static int findLastNonEmptySlot(final List<ItemStack> itemStacks) {
+        for(int i = itemStacks.size() - 1; i >= 0; --i) {
+            if (!((ItemStack)itemStacks.get(i)).isEmpty()) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    private List<GauntletContainerContents.Slot> asSlots() {
+        List<GauntletContainerContents.Slot> slots = new ArrayList();
+
+        for(int i = 0; i < this.items.size(); ++i) {
+            Optional<ItemStackTemplate> item = (Optional)this.items.get(i);
+            if (item.isPresent()) {
+                slots.add(new GauntletContainerContents.Slot(i, (ItemStackTemplate)item.get()));
+            }
+        }
+
+        return slots;
+    }
+
+    private ItemStack createStackFromSlot(final int slot) {
+        if (slot < this.items.size()) {
+            Optional<ItemStackTemplate> slotContents = (Optional)this.items.get(slot);
+            if (slotContents.isPresent()) {
+                return ((ItemStackTemplate)slotContents.get()).create();
+            }
+        }
+
+        return ItemStack.EMPTY;
+    }
+
+    public void copyInto(final NonNullList<ItemStack> destination) {
+        for(int i = 0; i < destination.size(); ++i) {
+            destination.set(i, this.createStackFromSlot(i));
+        }
+
+    }
+
+    public ItemStack copyOne() {
+        return this.createStackFromSlot(0);
+    }
+
+    public Stream<ItemStack> allItemsCopyStream() {
+        return this.items.stream().map((i) -> (ItemStack)i.map(ItemStackTemplate::create).orElse(ItemStack.EMPTY));
+    }
+
+    private Stream<ItemStackTemplate> nonEmptyItemsStream() {
+        return this.items.stream().flatMap(Optional::stream);
+    }
+
+    public Stream<ItemStack> nonEmptyItemCopyStream() {
+        return this.nonEmptyItemsStream().map(ItemStackTemplate::create);
+    }
+
+    public Iterable<ItemStackTemplate> nonEmptyItems() {
+        return () -> this.nonEmptyItemsStream().iterator();
+    }
+
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        } else {
+            boolean var10000;
+            if (obj instanceof GauntletContainerContents) {
+                GauntletContainerContents contents = (GauntletContainerContents)obj;
+                if (this.items.equals(contents.items)) {
+                    var10000 = true;
+                    return var10000;
+                }
+            }
+
+            var10000 = false;
+            return var10000;
+        }
+    }
+
+    public int hashCode() {
+        return this.hashCode;
+    }
+
+    public void addToTooltip(final Item.TooltipContext context, final Consumer<Component> consumer, final TooltipFlag flag, final DataComponentGetter components) {;
+        for(Optional<ItemStackTemplate> item : this.items) {
+            if (!item.isEmpty()) {
+                    ItemStack itemStack = ((ItemStackTemplate)item.get()).create();
+                    consumer.accept(Component.literal(itemStack.getItemName().getString()));
+            }
+        }
+    }
+
+    static {
+        CODEC = GauntletContainerContents.Slot.CODEC.sizeLimitedListOf(MAX_SIZE).xmap(GauntletContainerContents::fromSlots, GauntletContainerContents::asSlots);
+        STREAM_CODEC = ItemStackTemplate.STREAM_CODEC.apply(ByteBufCodecs::optional).apply(ByteBufCodecs.list(MAX_SIZE)).map(GauntletContainerContents::new, (c) -> c.items);
+    }
+
+    private static record Slot(int index, ItemStackTemplate item) {
+        public static final Codec<GauntletContainerContents.Slot> CODEC = RecordCodecBuilder.create((i) -> i.group(Codec.intRange(0, MAX_SIZE).fieldOf("slot").forGetter(GauntletContainerContents.Slot::index), ItemStackTemplate.CODEC.fieldOf("item").forGetter(GauntletContainerContents.Slot::item)).apply(i, GauntletContainerContents.Slot::new));
+    }
+}
