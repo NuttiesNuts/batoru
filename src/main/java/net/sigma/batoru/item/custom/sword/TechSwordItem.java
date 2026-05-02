@@ -49,7 +49,7 @@ public class TechSwordItem extends FancyNameItem {
 
                 ((ManaUsingEntity) player).manaattributes$addMana(-MANA_COST);
 
-                level.playSound(null, player.blockPosition(), BatoruSounds.TELEPORT, SoundSource.NEUTRAL, 0.5F, 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
+                level.playSound(null, player.blockPosition(), BatoruSounds.TELEPORT, SoundSource.NEUTRAL, 0.5F, 0.7F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
 
                 player.awardStat(Stats.ITEM_USED.get(this));
             } else if (currentMana <= MANA_COST){

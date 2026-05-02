@@ -20,7 +20,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.sigma.batoru.component.BatoruComponents;
@@ -33,7 +33,10 @@ import net.sigma.batoru.rank.CombatRank;
 import net.sigma.batoru.rank.RankUtil;
 import net.sigma.batoru.sound.BatoruSounds;
 import net.sigma.batoru.spell.BatoruSpells;
+import net.sigma.batoru.spell.Spell;
 import net.sigma.batoru.spell.SpellRegistry;
+import net.sigma.batoru.spell.custom.MultiPhaseSpell;
+import net.sigma.batoru.spell.custom.StarfallSpell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -112,6 +115,25 @@ public class Batoru implements ModInitializer {
         });
 
 
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
+            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+                TrinketAttachment trinkets = TrinketsApi.getAttachment(player);
+                if (!trinkets.isEquipped(BatoruItems.GAUNTLET)) continue;
+
+                var equipped = trinkets.getEquipped(BatoruItems.GAUNTLET);
+                if (equipped.isEmpty()) continue;
+                ItemStack gauntlet = equipped.getFirst().getB();
+
+                for (Spell spell : SpellRegistry.getAll()) {
+                    if (!(spell instanceof MultiPhaseSpell mp)) continue;
+                    if (!mp.isActive(player)) continue;
+
+                    boolean keepGoing = mp.tick(player, gauntlet);
+                    if (!keepGoing) mp.onEnd(player, gauntlet);
+                }
+            }
+        });
+
         ServerLivingEntityEvents.AFTER_DEATH.register((entity, damageSource) -> {
             if ((damageSource.getEntity() instanceof ServerPlayer killer) && (entity instanceof ServerPlayer)){
                 TrinketAttachment trinkets = TrinketsApi.getAttachment(killer);
@@ -123,6 +145,26 @@ public class Batoru implements ModInitializer {
                 CombatRank rank = RankUtil.getRank(killer);
                 RankUtil.awardRankAdvancement(killer, rank);
             }
+        });
+
+        ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> {
+                TrinketAttachment trinkets = TrinketsApi.getAttachment(entity);
+                if (trinkets.isEquipped(BatoruItems.GAUNTLET) && entity instanceof ServerPlayer player) {
+                    var equipped = trinkets.getEquipped(BatoruItems.GAUNTLET);
+                    if (!equipped.isEmpty()) {
+                        ItemStack gauntlet = equipped.getFirst().getB();
+                        GauntletContainerContents contents = gauntlet.get(BatoruComponents.CONTAINER);
+                        ItemStack card = contents.copyOne();
+                        if (card.getItem() instanceof SpellCardItem spellCard) {
+                            if (spellCard.getSpell() instanceof StarfallSpell starfallSpell){
+                                if (starfallSpell.hitGround(player) && source.is(DamageTypes.FALL)){
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+                return true;
         });
     }
 }

@@ -58,7 +58,7 @@ public class EnergyBall extends Fireball {
 
     @Override
     protected ParticleOptions getTrailParticle() {
-        return ParticleTypes.CRIT;
+        return ParticleTypes.ELECTRIC_SPARK;
     }
 
     @Override
@@ -125,6 +125,7 @@ public class EnergyBall extends Fireball {
     @Override
     protected void onHit(final HitResult hitResult) {
         super.onHit(hitResult);
+        // TODO custom hit particle
         if (hitResult.getType() == HitResult.Type.BLOCK) {
             this.level().addParticle(ParticleTypes.SMOKE, this.getX(), this.getY()+0.5, this.getZ(), 0.0, 0.2, 0.0);
             for(int i = 0; i < 4; i++)

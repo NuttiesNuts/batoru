@@ -14,7 +14,7 @@ public class BatoruSounds {
     public static final SoundEvent DENIED = registerInterfaceSound("denied");
     public static final SoundEvent TECH_SLASH = registerSlashSound("tech_slash");
     public static final SoundEvent TELEPORT = registerSpellSound("teleport");
-
+    public static final SoundEvent STAR_IMPULSE = registerSpellSound("star_impulse");
 
     private static SoundEvent registerInterfaceSound(String id) {
         Identifier identifier = Identifier.fromNamespaceAndPath(Batoru.MOD_ID, "interface/" + id);

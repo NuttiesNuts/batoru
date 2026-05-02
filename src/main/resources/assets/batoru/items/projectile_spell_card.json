@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "batoru:item/projectile_card"
+    "model": "batoru:item/projectile_spell_card"
   }
 }

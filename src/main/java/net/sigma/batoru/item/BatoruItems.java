@@ -15,6 +15,7 @@ import net.sigma.batoru.item.custom.sword.BibertaSwordItem;
 import net.sigma.batoru.item.custom.sword.MoonSwordItem;
 import net.sigma.batoru.item.custom.sword.StreetAxeItem;
 import net.sigma.batoru.item.custom.sword.TechSwordItem;
+import net.sigma.batoru.spell.BatoruSpells;
 import net.sigma.batoru.spell.custom.ProjectileSpell;
 
 import java.util.function.Function;
@@ -34,7 +35,6 @@ public class BatoruItems {
     }
 
     public static final Item GAUNTLET = register("gauntlet", GauntletItem::new, new Item.Properties());
-    public static final Item PROJECTILE_CARD = register("projectile_card", properties -> new SpellCardItem(properties, new ProjectileSpell()), new Item.Properties());
 
     public static final Item TECH_SWORD = register("tech_sword", TechSwordItem::new, new Item.Properties());
     public static final Item ASTRAMENTAL_SWORD = register("astramental_sword", MoonSwordItem::new, new Item.Properties());
@@ -43,17 +43,15 @@ public class BatoruItems {
 
     public static void initialize() {
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT)
-                .register((creativeTab) -> creativeTab.accept(BatoruItems.GAUNTLET));
-        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT)
-                .register((creativeTab) -> creativeTab.accept(BatoruItems.TECH_SWORD));
-        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT)
-                .register((creativeTab) -> creativeTab.accept(BatoruItems.ASTRAMENTAL_SWORD));
-        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT)
-                .register((creativeTab) -> creativeTab.accept(BatoruItems.BIBERTA_SWORD));
-        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT)
-                .register((creativeTab) -> creativeTab.accept(BatoruItems.STREET_AXE));
-        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT)
-                .register((creativeTab) -> creativeTab.accept(BatoruItems.PROJECTILE_CARD));
+                .register((creativeTab) -> {
+                    creativeTab.accept(BatoruItems.GAUNTLET);
+                    creativeTab.accept(BatoruItems.TECH_SWORD);
+                    creativeTab.accept(BatoruItems.ASTRAMENTAL_SWORD);
+                    creativeTab.accept(BatoruItems.BIBERTA_SWORD);
+                    creativeTab.accept(BatoruItems.STREET_AXE);
+
+                    BatoruSpells.SPELL_CARDS.forEach(creativeTab::accept);
+                });
     }
 
 }

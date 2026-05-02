@@ -33,6 +33,10 @@ public class SpellCardItem extends Item {
         return spellId;
     }
 
+    public Spell getSpell() {
+        return spell;
+    }
+
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         TrinketAttachment trinkets = TrinketsApi.getAttachment(player);

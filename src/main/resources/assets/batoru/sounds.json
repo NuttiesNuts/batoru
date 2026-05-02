@@ -9,5 +9,9 @@
   "spell/teleport": {
     "subtitle": "sound.batoru.spell.teleport",
     "sounds": ["batoru:spell/teleport"]
+  },
+  "spell/star_impulse": {
+    "subtitle": "sound.batoru.spell.star_impulse",
+    "sounds": ["batoru:spell/star_impulse"]
   }
 }
