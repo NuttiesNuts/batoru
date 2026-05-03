@@ -100,9 +100,7 @@ public class Batoru implements ModInitializer {
                                 } else if (currentMana <= spell.manaCost()) {
                                     player.sendOverlayMessage(Component.translatable("batoru.insufficient_mana").withStyle(ChatFormatting.DARK_RED));
 
-                                    if (player.level().isClientSide()) {
-                                        player.level().playLocalSound(player.blockPosition(), BatoruSounds.DENIED, SoundSource.PLAYERS, 1.0F, 1.0F, false);
-                                    }
+                                    player.level().playLocalSound(player.blockPosition(), BatoruSounds.DENIED, SoundSource.PLAYERS, 1.0F, 1.0F, false);
                                 }
                             });
                         }

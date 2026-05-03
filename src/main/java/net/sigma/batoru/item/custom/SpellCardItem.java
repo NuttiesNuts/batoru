@@ -41,9 +41,9 @@ public class SpellCardItem extends Item {
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         TrinketAttachment trinkets = TrinketsApi.getAttachment(player);
 
-        ItemStack gauntlet = trinkets.getEquipped(BatoruItems.GAUNTLET).getFirst().getB();
-
         if (trinkets.isEquipped(BatoruItems.GAUNTLET)){
+            ItemStack gauntlet = trinkets.getEquipped(BatoruItems.GAUNTLET).getFirst().getB();
+
             gauntlet.set(BatoruComponents.CONTAINER, GauntletContainerContents.fromItems(List.of(player.getMainHandItem())));
 
             player.getMainHandItem().shrink(1);
@@ -53,6 +53,6 @@ public class SpellCardItem extends Item {
             return InteractionResult.SUCCESS;
         }
 
-        return InteractionResult.PASS;
+        return InteractionResult.FAIL;
     }
 }

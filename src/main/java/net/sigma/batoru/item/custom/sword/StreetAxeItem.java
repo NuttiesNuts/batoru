@@ -6,6 +6,6 @@ import net.sigma.batoru.item.FancyNameItem;
 
 public class StreetAxeItem extends FancyNameItem {
     public StreetAxeItem(Properties properties) {
-        super(properties.axe(ToolMaterial.NETHERITE, 5.0F, -2F).fireResistant().rarity(Rarity.COMMON).useCooldown(15), 0xffffff, 0xc0cbdc);
+        super(properties.axe(ToolMaterial.NETHERITE, 5.0F, -3F).fireResistant().rarity(Rarity.COMMON).useCooldown(15), 0xffffff, 0xc0cbdc);
     }
 }
