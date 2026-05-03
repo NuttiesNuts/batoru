@@ -3,13 +3,13 @@
 	"id": "batoru",
 	"version": "${version}",
 	"name": "batoru",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "mi bombo",
 	"authors": [
 		"NuttiesNuts"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/NuttiesNuts/batoru"
 	},
 	"license": "MIT",
 	"icon": "assets/batoru/icon.png",
