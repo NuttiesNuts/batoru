@@ -135,8 +135,11 @@ public class Batoru implements ModInitializer {
         ServerLivingEntityEvents.AFTER_DEATH.register((entity, damageSource) -> {
             if ((damageSource.getEntity() instanceof ServerPlayer killer) && (entity instanceof ServerPlayer)){
                 TrinketAttachment trinkets = TrinketsApi.getAttachment(killer);
+
+                var equipped = trinkets.getEquipped(BatoruItems.GAUNTLET);
+                if (equipped.isEmpty()) return;
+
                 ItemStack gauntlet = trinkets.getEquipped(BatoruItems.GAUNTLET).getFirst().getB();
-                if (gauntlet.isEmpty()) return;
 
                 gauntlet.set(BatoruComponents.RANK, RankUtil.getRank(killer));
 
