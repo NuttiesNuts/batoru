@@ -36,6 +36,10 @@ public class GauntletContainerContents implements TooltipProvider {
         }
     }
 
+    public boolean isEmpty(){
+        return this.items.isEmpty();
+    }
+
     private static List<Optional<ItemStackTemplate>> emptyContents(final int size) {
         return new ArrayList(Collections.nCopies(size, Optional.empty()));
     }

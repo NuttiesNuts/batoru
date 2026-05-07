@@ -44,11 +44,30 @@ public class SpellCardItem extends Item {
         if (trinkets.isEquipped(BatoruItems.GAUNTLET)){
             ItemStack gauntlet = trinkets.getEquipped(BatoruItems.GAUNTLET).getFirst().getB();
 
-            gauntlet.set(BatoruComponents.CONTAINER, GauntletContainerContents.fromItems(List.of(player.getMainHandItem())));
+            GauntletContainerContents contents = gauntlet.get(BatoruComponents.CONTAINER);
+            ItemStack card = contents.copyOne();
 
-            player.getMainHandItem().shrink(1);
+
+
+            if (gauntlet.get(BatoruComponents.CONTAINER).isEmpty()) {
+                gauntlet.set(BatoruComponents.CONTAINER, GauntletContainerContents.fromItems(List.of(player.getMainHandItem())));
+
+                if (!player.addItem(card)) {
+                    player.drop(card, false);
+                }
+            }
 
             player.sendOverlayMessage(Component.translatable("item.batoru.spell_card.equip_message", spell.displayName()).withStyle(ChatFormatting.GRAY));
+
+            if (!gauntlet.get(BatoruComponents.CONTAINER).isEmpty()) {
+                gauntlet.set(BatoruComponents.CONTAINER, GauntletContainerContents.fromItems(List.of(player.getMainHandItem()))); //TODO: fix this mess
+
+                if (!player.addItem(card)) {
+                    player.drop(card, false);
+                }
+            }
+
+            player.getMainHandItem().shrink(1);
 
             return InteractionResult.SUCCESS;
         }
