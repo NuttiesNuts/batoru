@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.minecraft.client.particle.AttackSweepParticle;
 import net.sigma.batoru.Batoru;
+import net.sigma.batoru.networking.SpellCastPayload;
 import net.sigma.batoru.networking.WeaponAbilityPayload;
 import org.lwjgl.glfw.GLFW;
 
@@ -54,7 +55,7 @@ public class BatoruClient implements ClientModInitializer {
             }
             while (spellCastKey.consumeClick()) {
                 if (client.player != null) {
-                    WeaponAbilityPayload payload = new WeaponAbilityPayload();
+                    SpellCastPayload payload = new SpellCastPayload();
                     ClientPlayNetworking.send(payload);
                 }
             }

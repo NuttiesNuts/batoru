@@ -41,7 +41,6 @@ public class ProjectileSpell implements Spell {
 
     @Override
     public void cast(ServerPlayer player, ItemStack gauntletStack) {
-        System.out.println("mi bombo casted");
         double d = 20.0;
         Vec3 viewVector = player.getViewVector(1.0F);
         Vec3 direction = new Vec3(viewVector.x, viewVector.y, viewVector.z);

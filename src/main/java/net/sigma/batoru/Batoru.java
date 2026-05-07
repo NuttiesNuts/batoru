@@ -28,6 +28,7 @@ import net.sigma.batoru.component.GauntletContainerContents;
 import net.sigma.batoru.entity.BatoruEntities;
 import net.sigma.batoru.item.BatoruItems;
 import net.sigma.batoru.item.custom.SpellCardItem;
+import net.sigma.batoru.networking.SpellCastPayload;
 import net.sigma.batoru.networking.WeaponAbilityPayload;
 import net.sigma.batoru.rank.CombatRank;
 import net.sigma.batoru.rank.RankUtil;
@@ -67,13 +68,12 @@ public class Batoru implements ModInitializer {
         Registry.register(BuiltInRegistries.PARTICLE_TYPE, Identifier.fromNamespaceAndPath(MOD_ID, "tech_sweep"), TECH_SWEEP);
 
         PayloadTypeRegistry.serverboundPlay().register(WeaponAbilityPayload.TYPE, WeaponAbilityPayload.CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(SpellCastPayload.TYPE, SpellCastPayload.CODEC);
 
-        // payload thingies
+        // On weapon ability press, save block pos on Tech Sword
         ServerPlayNetworking.registerGlobalReceiver(WeaponAbilityPayload.TYPE, (payload, context) -> {
             context.server().execute(() -> {
                 ServerPlayer player = context.player();
-
-                float currentMana = ((ManaUsingEntity) player).manaattributes$getMana();
 
                 ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
 
@@ -82,6 +82,14 @@ public class Batoru implements ModInitializer {
                 if (stack.is(BatoruItems.TECH_SWORD) && !stack.has(BatoruComponents.TELEPORT_POSITION)){
                     stack.set(BatoruComponents.TELEPORT_POSITION, blockPos);
                 }
+            });
+        });
+
+        ServerPlayNetworking.registerGlobalReceiver(SpellCastPayload.TYPE, (payload, context) -> {
+            context.server().execute(() -> {
+                ServerPlayer player = context.player();
+
+                float currentMana = ((ManaUsingEntity) player).manaattributes$getMana();
 
                 TrinketAttachment trinkets = TrinketsApi.getAttachment(player);
                 ItemStack gauntlet = trinkets.getEquipped(BatoruItems.GAUNTLET).getFirst().getB();
