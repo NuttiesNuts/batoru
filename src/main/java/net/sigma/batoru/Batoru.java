@@ -92,9 +92,13 @@ public class Batoru implements ModInitializer {
                 float currentMana = ((ManaUsingEntity) player).manaattributes$getMana();
 
                 TrinketAttachment trinkets = TrinketsApi.getAttachment(player);
-                ItemStack gauntlet = trinkets.getEquipped(BatoruItems.GAUNTLET).getFirst().getB();
 
                 if (trinkets.isEquipped(BatoruItems.GAUNTLET)){
+                    var equipped = trinkets.getEquipped(BatoruItems.GAUNTLET);
+                    if (equipped.isEmpty()) return;
+
+                    ItemStack gauntlet = trinkets.getEquipped(BatoruItems.GAUNTLET).getFirst().getB();
+
                     if (Objects.equals(gauntlet.get(BatoruComponents.OWNER), player.getPlainTextName())){
                         GauntletContainerContents contents = gauntlet.get(BatoruComponents.CONTAINER);
                         ItemStack card = contents.copyOne();
