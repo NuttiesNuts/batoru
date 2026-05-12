@@ -21,6 +21,15 @@
   "batoru.insufficient_mana": "Insufficient mana!",
 
   "sound.batoru.interface.denied": "Denied",
-  "sound.batoru.spell.teleport": "Player teleported"
+  "sound.batoru.spell.teleport": "Player teleported",
+  "sound.batoru.spell.star_impulse": "Starfall Spell",
+
+  "lore.batoru.gauntlet": "An item that can store spell cards and allows spell casting.",
+  "lore.batoru.projectile_spell_card": "A common card that can be equipped in a Student Gauntlet. When cast, shoots an energy ball.",
+  "lore.batoru.starfall_spell_card": "An epic card that can be equipped in a Student Gauntlet. When cast, launches the player upward and slams them into the ground.",
+  "lore.batoru.tech_sword": "A high-tech sword built with spatial displacement technology. Marks a location, then teleports the wielder to it.",
+  "lore.batoru.astramental_sword": "A mysterious sword.",
+  "lore.batoru.biberta_sword": "A BIG mysterious sword.",
+  "lore.batoru.street_axe": "A mysterious axe. From da streets!"
 
 }
