@@ -10,5 +10,6 @@ public class BatoruDataGenerator implements DataGeneratorEntrypoint {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
 
         pack.addProvider(BatoruAdvancementProvider::new);
+        pack.addProvider(BatoruItemTagProvider::new);
     }
 }
