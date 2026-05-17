@@ -11,5 +11,6 @@ public class BatoruDataGenerator implements DataGeneratorEntrypoint {
 
         pack.addProvider(BatoruAdvancementProvider::new);
         pack.addProvider(BatoruItemTagProvider::new);
+        pack.addProvider(BatoruRecipeProvider::new);
     }
 }

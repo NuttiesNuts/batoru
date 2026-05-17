@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "minecraft:ender_pearl",
+  "base": "minecraft:netherite_sword",
+  "result": {
+    "id": "batoru:tech_sword"
+  },
+  "template": "minecraft:bolt_armor_trim_smithing_template"
+}

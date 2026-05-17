@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "H": "#c:ingots/iron",
+    "L": "minecraft:lapis_lazuli",
+    "R": "minecraft:recovery_compass"
+  },
+  "pattern": [
+    "HLH",
+    "HRH"
+  ],
+  "result": {
+    "id": "batoru:gauntlet"
+  }
+}
